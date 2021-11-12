@@ -3,8 +3,8 @@ res = requests.request(
 	'GET',
 	'https://api.nytimes.com/svc/search/v2/articlesearch.json',
     params={
-	'api-key':'t98Dt-EJGv44MvPSuuqxuA',
-	'q': 'Bill Gates'ddd
+	'api-key':'ZH1qAxxoXFtNXE9ueyMpBZT17NVSfAoU',
+	'q': 'Bill Gates'
 	}
 
 )
