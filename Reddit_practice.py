@@ -1,6 +1,6 @@
 
 import requests
-
+import pandas as pd
 # note that CLIENT_ID refers to 'personal use script' and SECRET_TOKEN to 'token'
 auth = requests.auth.HTTPBasicAuth('0GFgVgByJ065sadDY62Q4g', 'KfE32h3JMcZPLSF3UmYMJMsJbrXcaQ')
 
