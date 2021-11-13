@@ -24,3 +24,6 @@ for submission in wsb.search('Daily Discussion Thread for', sort='new', time_fil
             }, ignore_index=True)
 
 print(post_df)
+
+for comments in post_df:
+    
