@@ -11,17 +11,27 @@ reddit = praw.Reddit(
 
 posts_df = pd.DataFrame()
 
-wsb = reddit.subreddit('wallstreetbets')
-for submission in wsb.search('Daily Discussion Thread for', sort='new', time_filter='all', limit=500):
-    if 'Daily Discussion Thread for' in submission.title:
-        if 'June' in submission.title or 'July' in submission.title:
-            #I need title, id, comments, score, put into posts_df
-            posts_df = posts_df.append({
-                'id':submission.id,
-                'title':submission.title,
-                'score':submission.score,
-                'top_level_comments': list(submission.comments.replace_more(limit=None))
-            }, ignore_index=True)
+post = reddit.submission('qskqik')
+post.comments.replace_more(limit=None)
+posts_df = posts_df.append({
+    'id':post.id,
+    'title':post.title,
+    'score':post.score,
+    'top_level_comments': list(post.comments)
+}, ignore_index=True)
+
+# wsb = reddit.subreddit('wallstreetbets')
+# for submission in wsb.search('Daily Discussion Thread for', sort='new', time_filter='all', limit=500):
+#     if 'Daily Discussion Thread for June 10, 2021' in submission.title:
+#         if 'June' in submission.title or 'July' in submission.title:
+#             #I need title, id, comments, score, put into posts_df
+#             submission.comments.replace_more(limit=None)
+#             posts_df = posts_df.append({
+#                 'id':submission.id,
+#                 'title':submission.title,
+#                 'score':submission.score,
+#                 'top_level_comments': list(submission.comments)
+#             }, ignore_index=True)
 
 
 posts_df.to_csv(r'posts_df.csv')
@@ -36,4 +46,4 @@ for posts in posts_df.itertuples():
             'score':comment.score
         }, ignore_index=True)
 
-comments_df.to_csv(r'posts_df.csv')
+comments_df.to_csv(r'comments_df.csv')
