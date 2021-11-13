@@ -20,7 +20,7 @@ for submission in wsb.search('Daily Discussion Thread for', sort='new', time_fil
                 'id':submission.id,
                 'title':submission.title,
                 'score':submission.score,
-                'top_level_comments': list(submission.comments)
+                'top_level_comments': list(submission.comments.replace_more(limit=None))
             }, ignore_index=True)
 
 
@@ -28,12 +28,12 @@ posts_df.to_csv(r'posts_df.csv')
 
 comments_df = pd.DataFrame()
 for posts in posts_df:
-    for comment in top_level_comments:
+    for top_level_comments in posts:
         comments_df = comments_df.append({
-            'id':comment.id,
-            'post_id':comment.link_id,
-            'body':comment.body,
-            'score':comment.score
+            'id':top_level_comments.id,
+            'post_id':top_level_comments.link_id,
+            'body':top_level_comments.body,
+            'score':top_level_comments.score
         }, ignore_index=True)
 
 comments_df.to_csv(r'posts_df.csv')
