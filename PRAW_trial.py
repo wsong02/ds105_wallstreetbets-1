@@ -1,4 +1,5 @@
 import praw as praw
+import pandas as pd
 
 reddit = praw.Reddit(
     client_id="0GFgVgByJ065sadDY62Q4g",
@@ -8,7 +9,10 @@ reddit = praw.Reddit(
     username="ds105_WSB",
 )
 
+df = pd.DataFrame()
+
 wsb = reddit.subreddit('wallstreetbets')
 for submission in wsb.search('Daily Discussion Thread for', sort='new', time_filter='all', limit=500):
     if 'Daily Discussion Thread for' in submission.title:
-        print(submission.title)
+        if 'June' in submission.title or 'July' in submission.title:
+            print(submission.title)
