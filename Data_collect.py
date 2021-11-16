@@ -25,6 +25,7 @@ for submission in wsb.search('Daily Discussion Thread for', sort='new', time_fil
     if 'Daily Discussion Thread for ' in submission.title:
         if 'June' in submission.title or 'July' in submission.title:
             #I need title, id, comments, score, put into posts_df
+            print('Post ': submission.title)
             submission.comments.replace_more(limit=None)
             posts_df = posts_df.append({
                 'id':submission.id,
@@ -38,7 +39,8 @@ posts_df.to_csv(r'posts.csv')
 
 comments_df = pd.DataFrame()
 for posts in posts_df.itertuples():
-    for comment in posts.top_level_comments:
+        print('Comments: ' + posts.title)
+        for comment in posts.top_level_comments:
         comments_df = comments_df.append({
             'id':comment.id,
             'post_id':comment.link_id,
