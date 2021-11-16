@@ -32,11 +32,11 @@ for submission in wsb.search('Daily Discussion Thread for', sort='new', time_fil
             last_exception = None
             timeout = 900 #seconds = 15 minutes
             time_start = int(time.time())
-            while not result and int(time.time()) < time_Start + timeout:
+            while not result and int(time.time()) < time_start + timeout:
                 try:
                     submission.comments.replace_more(limit=None)
                     result = True
-                except prawcore.excptions.ServerError as e:
+                except prawcore.exceptions.ServerError as e:
                     #wait for 30 seconds since sending more requests to overloaded server might not be helping
                     last_exception = e
                     time.sleep(30)
