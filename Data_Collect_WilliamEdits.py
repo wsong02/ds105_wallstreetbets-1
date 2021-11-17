@@ -1,6 +1,8 @@
 import praw as praw
+import prawcore
 import pandas as pd
 import time
+import os.path
 from time import sleep
 
 reddit = praw.Reddit(
@@ -11,7 +13,7 @@ reddit = praw.Reddit(
     username="ds105_WSB",
 )
 
-posts_df = pd.DataFrame()
+
 
 # post = reddit.submission('qskqik')
 # post.comments.replace_more(limit=None)
@@ -26,6 +28,7 @@ wsb = reddit.subreddit('wallstreetbets')
 for submission in wsb.search('Daily Discussion Thread for', sort='new', time_filter='all', limit=500):
     if 'Daily Discussion Thread for ' in submission.title:
         if 'June' in submission.title or 'July' in submission.title:
+            posts_df = pd.DataFrame()
             #I need title, id, comments, score, put into posts_df
             print('Posts: ' + submission.title)
             result = False
@@ -48,10 +51,12 @@ for submission in wsb.search('Daily Discussion Thread for', sort='new', time_fil
                 'score':submission.score,
                 'top_level_comments': list(submission.comments)
             }, ignore_index=True)
+            if os.path.exists('posts.csv'):
+                posts_df.to_csv(r'posts.csv', mode = 'a')
+            else:
+                posts_df.to_csv(r'posts.csv', mode = 'w')
 
-
-posts_df.to_csv(r'posts.csv')
-
+posts_df = pd.read_csv(r'posts.csv')
 comments_df = pd.DataFrame()
 for posts in posts_df.itertuples():
     print('Comments: '+posts.title)
