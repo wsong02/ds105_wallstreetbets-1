@@ -24,11 +24,12 @@ reddit = praw.Reddit(
 #     'top_level_comments': list(post.comments)
 # }, ignore_index=True)
 
+all_posts_df = pd.DataFrame()
 wsb = reddit.subreddit('wallstreetbets')
 for submission in wsb.search('Daily Discussion Thread for', sort='new', time_filter='all', limit=500):
     if 'Daily Discussion Thread for ' in submission.title:
         if 'June' in submission.title or 'July' in submission.title:
-            posts_df = pd.DataFrame()
+            post_df = pd.DataFrame()
             #I need title, id, comments, score, put into posts_df
             print('Posts: ' + submission.title)
             result = False
@@ -45,18 +46,24 @@ for submission in wsb.search('Daily Discussion Thread for', sort='new', time_fil
                     time.sleep(30)
             if not result:
                 raise last_exception
-            posts_df = posts_df.append({
+            post_df = post_df.append({
+                'id':submission.id,
+                'title':submission.title,
+                'score':submission.score,
+                'top_level_comments': list(submission.comments)
+            }, ignore_index=True)
+            all_posts_df = all_posts_df.append({
                 'id':submission.id,
                 'title':submission.title,
                 'score':submission.score,
                 'top_level_comments': list(submission.comments)
             }, ignore_index=True)
             if path.exists('posts.csv'):
-                posts_df.to_csv(r'posts.csv', mode = 'a')
+                post_df.to_csv(r'posts.csv', mode = 'a')
             else:
-                posts_df.to_csv(r'posts.csv', mode = 'w')
+                post_df.to_csv(r'posts.csv', mode = 'w')
 
-for posts in posts_df.itertuples():
+for posts in all_posts_df.itertuples():
     print('Comments: '+posts.title)
     for comment in posts.top_level_comments:
         comments_df = pd.DataFrame()
